@@ -1,29 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
-const int mod = 1'000'000'007;
+const int mod = 1e9+7;
 
-int differ_bit_count(vector<int>& arr){
-    int n=arr.size();
-    ll ans=0,active=0,prod=0;
-    for(int i=0;i<31;i++){
-        active=0;
-        
-        for(int j=0;j<n;j++){
-            if(arr[j] & (1<<i))
-                active++;
+int solve(vector<int>& A) {
+    const int MOD = 1e9 + 7;
+    ll ans = 0;
+    int n = A.size();
+
+    for (int bit = 0; bit < 32; bit++) {
+        ll count1 = 0;
+        for (int x : A) {
+            if (x & (1 << bit))
+                count1++;
         }
-        prod=(active*(n-active))%mod;
-        ans=(ans+prod)%mod;
+        ll count0 = n - count1;
+        ans = (ans + (count1 * count0 * 2) % MOD) % MOD;
     }
-    return (ans*2)%mod;
+    return ans;
 }
 
 int main() {
-  int n;
-  cin>>n;
-  vector<int> v(n);
-  for(int i=0;i<n;i++) cin>>v[i];
-  cout<<differ_bit_count(v);   
-return 0;
+    int n;
+    cin >> n;
+    vector<int> vec(n);
+    for (int i=0;i<n;i++)
+        cin >> vec[i];
+    cout<<differ_bit_count(v);
+    return 0;
 }
